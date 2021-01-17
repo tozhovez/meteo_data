@@ -1,0 +1,41 @@
+version: '3.7'
+
+networks:
+  meteo-data:
+    name: meteo-data
+    driver: bridge
+
+services:
+
+#####################################################################
+#          Meteo-Data services                                    #
+#####################################################################
+
+  update-wind-data-service:
+    hostname: update-wind-data-service
+    container_name: update-wind-data-service
+    image: "update-wind-data-service:latest"        
+    environment:
+      - RUNS_IN_DOCKER=-1
+      - POSTGRES_DB_URL=postgres://docker:docker@localhost:5333/meteo_data
+      - DATA_STORAGE=/root/meteo-data-storage/data
+      - ARCHIVE_STORAGE=/root/meteo-data-storage/archive
+      - QUERY_RESULTS=/root/meteo-data-storage/query_results
+      - HOME_DIR=${HOME}
+      - JOB_INTERVAL=300
+    volumes:
+      - ${HOME}/meteo-data-storage/data:/root/meteo-data-storage/data
+      - ${HOME}/meteo-data-storage/archive:/root/meteo-data-storage/archive
+      - ${HOME}/meteo-data-storage/query_results:/root/meteo-data-storage/query_results
+      - /etc/rc.local:/host/rc.local
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - "postgresql"
+    privileged: true
+    restart: always
+    ports:
+      - "21003:21003"
+    networks:
+      - meteo-data
+    
+ 

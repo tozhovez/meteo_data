@@ -1,0 +1,23 @@
+version: '3.7'
+
+networks:
+  meteo-data:
+    name: meteo-data
+    driver: bridge
+
+services:
+
+#####################################################################
+#          Meteo Data services                                    #
+#####################################################################
+
+  update-wind-data-service:
+    build:
+      context: UpdaterService/.
+      dockerfile: Dockerfile
+      args:
+        BUILD_VERSION: ${BUILD_VERSION}
+    logging:
+      driver: "json-file"
+ 
+

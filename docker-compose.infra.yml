@@ -1,0 +1,101 @@
+version: '3.7'
+
+networks:
+  meteo-data:
+    name: meteo-data
+    driver: bridge
+
+services:
+
+#####################################################################
+#          Queues, Brokers, Logging, DB, Infra services, etc        #
+#####################################################################
+  postgresql:
+    container_name: postgresql-meteo-data
+    image: "postgres:12.4"
+    hostname: "postgresql"
+    volumes:
+      - ${HOME}/meteo-data-storage/postgresql/data:/var/lib/postgresql/data
+      - ${HOME}/meteo-data-storage/data:/root/meteo-data-storage/data
+      - ${HOME}/meteo-data-storage/archive:/root/meteo-data-storage/archive
+      - ${HOME}/meteo-data-storage/query_results:/root/meteo-data-storage/query_results
+    ports:
+      - "127.0.0.1:5333:5432"
+    environment:
+      - POSTGRES_HOST=localhost
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DBPARAMS="--lc-collate=C --template=template0 --lc-ctype=C"
+    restart: unless-stopped
+    networks:
+      - meteo-data
+      
+  #consul:
+  #  container_name: consul-meteo-data
+  #  image: "consul:latest"
+  #  hostname: "consul"
+  #  volumes:
+  #    - ${HOME}/meteo-data-storage/consul/data:/consul/data
+  #  ports:
+  #    - 8501:8500
+  #    - 8601:8600
+  #  command: agent -server -ui -dev -bind 0.0.0.0 -client 0.0.0.0 -bootstrap -bootstrap-expect 1
+  #  restart: unless-stopped
+  #  networks:
+  #    - meteo-data
+  #
+  #influxdb:
+  #  container_name: influxdb-meteo-data
+  #  image: 'influxdb:alpine'
+  #  hostname: influxdb
+  #  restart: unless-stopped
+  #  #environment:
+  #  #- 'INFLUXDB_BIND_ADDRESS=:8088'
+  #  volumes:
+  #    - '${HOME}/meteo-data-storage/influxdb/data:/var/lib/influxdb'
+  #  ports:
+  #    - '8086:8086'
+  #    - '8088:8088'
+  #  networks:
+  #    - meteo-data
+  #
+  #chronograf:
+  #  container_name: chronograf-meteo-data
+  #  hostname: "chronograf"
+  #  image: chronograf:alpine
+  #  volumes:
+  #    - ${HOME}/meteo-data-storage/chronograf/data/:/var/lib/chronograf/
+  #  ports:
+  #    - "8888:8888"
+  #  depends_on:
+  #    - influxdb
+  #  networks:
+  #    - meteo-data
+  #
+  #
+  #kapacitor:
+  #  container_name: kapacitor-meteo-data
+  #  image: 'kapacitor:alpine'
+  #  hostname: kapacitor
+  #  ports:
+  #    - '9092:9092'
+  #  environment:
+  #    - KAPACITOR_INFLUXDB_0_URLS_0=http://influxdb:8086
+  #  networks:
+  #    - meteo-data
+  #  depends_on:
+  #    - influxdb
+  #
+  #telegraf:
+  #  hostname: telegraf-meteo-data
+  #  image: 'telegraf:alpine'
+  #  container_name: telegraf-meteo-data
+  #  #configs:
+  #  #- source: telegraf-conf
+  #  #- target: /etc/telegraf/telegraf.conf
+  #  depends_on:
+  #    - influxdb
+  #  ports:
+  #    - '8186:8186'
+  #  networks:
+  #    - meteo-data

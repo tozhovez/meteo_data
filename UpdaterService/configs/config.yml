@@ -1,0 +1,31 @@
+RUNS_IN_DOCKER: -1
+POSTGRES_URL: postgres://docker:docker@localhost:5333/postgres
+POSTGRES_HOST: postgres://docker:docker@localhost:5333/
+POSTGRES_DB_URL: postgres://docker:docker@localhost:5333/meteo_data
+
+POSTGRES_LOCALHOST: postgres://docker:docker@localhost:5333/meteo_data
+DATA_STORAGE: meteo-data-storage/data
+ARCHIVE_STORAGE: meteo-data-storage/archive
+QUERY_RESULTS: meteo-data-storage/query_results
+JOB_INTERVAL: 300
+MAX_LINES: 97
+TABLE_DATA: wind_data
+TABLE_CITY: city_attributes
+
+ZIP_INIT_DATA: archive.zip
+DIR_INIT_DATA: Infra/archive
+DATAFILES:
+  - wind_direction.csv
+  - wind_speed.csv
+  - humidity.csv
+  - pressure.csv
+  - temperature.csv
+  - weather_description.csv
+  
+DATATYPES:
+  - wind_direction
+  - wind_speed
+  - humidity
+  - pressure
+  - temperature
+  - weather_description
