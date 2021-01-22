@@ -63,7 +63,6 @@ install-requirements: clean ## Install requirements
 	@echo "======================================================"
 
 
-
 tools-requirements: $(REQ_FILE_TOOLS)
 	@echo "======================================================"
 	@echo "tools-requirements $(PYV3)"
@@ -73,16 +72,14 @@ tools-requirements: $(REQ_FILE_TOOLS)
 run-infra: ## Run-infra (pull and run consul, postgres dockers)
 	@docker-compose -f docker-compose.infra.yml up -d> /dev/null
 
-
-
 stop-infra: ## Stop-infra (postgres dockers)
 	@docker-compose -f docker-compose.infra.yml down>/dev/null
 
-create-database: install-requirements run-infra ## Create postgres database and import schema
+create-database: ## install-requirements run-infra ## Create postgres database and import schema
 	@$(PYTHON3) ./Infra/scripts/create_database.py
 
 
-load-wind-data: create-database ## Load_wind_data
+load-wind-data: ## Load_wind_data
 	@$(PYTHON3) ./LoadWindData/main.py
 
 
@@ -90,12 +87,14 @@ update-wind-data: ## Update_wind_data
 	@$(PYTHON3) ./UpdaterService/main.py
 
 
-#stop-services: ##-f docker-compose.dev.yml -f docker-compose.debug.yml
-#	@docker-compose -f docker-compose.infra.yml -f docker-compose.dev.yml down>/dev/null
-#
-#run-services:
-#	@docker-compose -f docker-compose.dev.yml -f docker-compose.infra.yml up -d>/dev/null
+stop-services: ##-f docker-compose.dev.yml -f docker-compose.debug.yml
+	@docker-compose -f docker-compose.infra.yml  down>/dev/null
 
+#run-services:
+#	@docker-compose -f docker-compose.dev.yml -f docker-compose.debug.yml up -d --build>/dev/null
+
+#stop-services:
+#	@docker-compose -f docker-compose.dev.yml -f docker-compose.debug.yml down>/dev/null
 
 query: ## Script called "query.sh"
 	@echo "======================================================"
@@ -104,7 +103,7 @@ query: ## Script called "query.sh"
 	@echo "in Jerusalem"
 	@echo "======================================================"
 	@chmod +x ./Query/query.sh
-	@$(SHELL) ./Query/query.sh
+	@$(SHELL) ./Query/query.sh $(STORAGE)/query_results
 
 
 docker-run:
