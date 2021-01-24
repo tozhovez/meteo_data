@@ -1,0 +1,12 @@
+RUNS_IN_DOCKER: -1
+DATA_STORAGE: meteo-data/storage-data
+JOB_INTERVAL: 300
+MAX_LINES: 97
+FILES_HOST: https://ftp.ncep.noaa.gov/data/nccf/com/gfs/prod
+
+INPUT_PARAMS:
+  STOP_DATE: "2021-01-23 09:32:00"
+  START_DATE: "2021-01-20 03:42:00"
+  ZZZ: "003"
+  HEIGHT: "100 mb"
+  FIELD: "GRLE"
