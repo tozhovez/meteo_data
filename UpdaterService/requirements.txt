@@ -10,7 +10,7 @@ aiofiles==0.6.0
 aiohttp==3.7.4
 codetiming==1.2.0
 
-PyYAML==5.3.1
+PyYAML==5.4
 sanic==20.9.0
 Sanic-Cors==0.10.0.post3
 Sanic-Plugins-Framework==0.9.4.post1
