@@ -11,7 +11,7 @@ aiohttp==3.7.4
 codetiming==1.2.0
 
 PyYAML==5.4
-sanic==20.9.0
+sanic==20.12.6
 Sanic-Cors==0.10.0.post3
 Sanic-Plugins-Framework==0.9.4.post1
 tabulate==0.8.7
