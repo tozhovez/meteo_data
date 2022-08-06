@@ -9,7 +9,7 @@ psycopg2-binary==2.8.6
 codetiming==1.2.0
 
 PyYAML==5.4
-sanic==20.9.0
+sanic==20.12.7
 Sanic-Cors==0.10.0.post3
 Sanic-Plugins-Framework==0.9.4.post1
 tabulate==0.8.7
