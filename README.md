@@ -1,3 +1,123 @@
+
+# 2023
+## 1 .primary key - 
+```uniquely identifies each record in a table. Primary keys must contain UNIQUE values, and cannot contain NULL values. A table can have only ONE primary key; and in the table, this primary key can consist of single or multiple columns```
+
+## 2 . foreign key -
+
+```link data in one table to the data in another table. A foreign key column in a table points to a column with unique values in another table (often the primary key column) to create a way of cross-referencing the two tables```
+
+## 3. **What is DML and DDL?**
+              
+- `DDL is Data Definition Language which is used to define data structures.`
+- `DML is Data Manipulation Language that is used to manipulate data itself.`
+
+## 4. ?????
+
+## 5. 
+```select * from table where col2 like ' %xyz% ' ```
+**How do you make this SQL query faster?**
+  - Limit the Number of Columns Returned SELECT * 
+  - Indexing: Ensure that the columns involved in your WHERE clause, especially col2 in this case, are indexed. 
+  - Use Full-Text Search
+  - Partitioning
+
+## 6. Write Python function to get the (list and number) and return True if (a+b = number) and (a in the list) and (b in the list) else return False. 
+
+- f([1,3,7,3,8,4,3], 15) = True (7+8=15)
+- f([3, 4, 5, 9, 2], 20) = False
+
+```
+      def f(arr, num):
+          data = {}
+          for i in arr:
+              if num - i in data:
+                  return True
+              data[i] = data.setdefault(i, 0)
+      
+          return False
+      
+      print(f([1,7,4,9,7,8,2], 15))
+      print(f([1,7,4,9,7,9,2], 15))
+      
+      print(f([1,7,4,9,7,9,2], 14))
+      print(f([1,7,4,9,1,9,2], 14))
+```
+
+## 7. sql query:
+      SELECT
+            b."name" AS Department, 
+            a."name" AS Employeer, 
+            a."salary" AS Salary
+      FROM (
+            SELECT 
+                  "department_id", 
+                  "name", 
+                  "salary", 
+                  dense_rank() OVER (PARTITION BY "department_id" ORDER BY "salary" DESC) as "runks"
+            FROM "Employee" 
+            ) a 
+            INNER JOIN "Departments" b on(a."department_id"=b."id")
+     WHERE a."runks" <= 3
+
+```
+| department | employeer | salary |
+
+| IT	     | Priya   | 80000 |
+| IT       | Vikas   | 75000 |
+| IT       | Priyna  | 75000 |
+| IT       | Anil    | 65000 |
+| IT       | Santosh | 65000 |
+| Siles    | Rajesh  | 90000 |
+| Siles    | Nidhi   | 60000 |
+| Siles    | Raman   | 55000 | 
+
+```     
+```  DROP TABLE IF EXISTS "Departments";
+      DROP SEQUENCE IF EXISTS "Departments_id_seq";
+      CREATE SEQUENCE "Departments_id_seq" INCREMENT  MINVALUE  MAXVALUE  CACHE ;
+      
+      CREATE TABLE "public"."Departments" (
+          "id" integer DEFAULT nextval('"Departments_id_seq"') NOT NULL,
+          "name" character varying NOT NULL,
+          CONSTRAINT "Departments_name" UNIQUE ("name"),
+          CONSTRAINT "Departments_pkey" PRIMARY KEY ("id")
+      ) WITH (oids = false);
+      
+      INSERT INTO "Departments" ("id", "name") VALUES
+      (1,	'IT'),
+      (2,	'Siles');
+      
+      DROP TABLE IF EXISTS "Employee";
+      DROP SEQUENCE IF EXISTS "Employee_id_seq";
+      CREATE SEQUENCE "Employee_id_seq" INCREMENT  MINVALUE  MAXVALUE  CACHE ;
+      
+      CREATE TABLE "public"."Employee" (
+          "id" integer DEFAULT nextval('"Employee_id_seq"') NOT NULL,
+          "name" character varying NOT NULL,
+          "salary" integer NOT NULL,
+          "department_id" integer NOT NULL,
+          CONSTRAINT "Employee_name" UNIQUE ("name"),
+          CONSTRAINT "Employee_pkey" PRIMARY KEY ("id")
+      ) WITH (oids = false);
+      
+      INSERT INTO "Employee" ("id", "name", "salary", "department_id") VALUES
+      (2,	'Vikas',	75000,	1),
+      (3,	'Nisha',	40000,	1),
+      (4,	'Nidhi',	60000,	2),
+      (6,	'Priya',	80000,	1),
+      (7,	'Mohit',	45000,	1),
+      (8,	'Rajesh',	90000,	2),
+      (9,	'Raman',	55000,	2),
+      (10,	'Santosh',	65000,	1),
+      (12,	'Mlohit',	40000,	1),
+      (11,	'Priyna',	75000,	1),
+      (1,	'Anil',	65000,	1);
+      
+      ALTER TABLE ONLY "public"."Employee" ADD CONSTRAINT "Employee_department_id_fkey" FOREIGN KEY (department_id) REFERENCES "Departments"(id) ON UPDATE CASCADE ON DELETE CASCADE NOT DEFERRABLE;
+```
+----------------------------------------------------------------------------
+
 # meteo_data
 ### ```Python exam.pdf```
 ### ```Meteo_Data_Exam.pdf```
