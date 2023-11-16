@@ -45,6 +45,7 @@
 ```
 
 ## 7. sql query:
+```     
       SELECT
             b."name" AS Department, 
             a."name" AS Employeer, 
@@ -59,6 +60,8 @@
             ) a 
             INNER JOIN "Departments" b on(a."department_id"=b."id")
      WHERE a."runks" <= 3
+``` 
+     
 
 ```
 | department | employeer | salary |
